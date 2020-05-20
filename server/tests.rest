@@ -1,0 +1,24 @@
+GET http://localhost:3000/users
+
+#####
+
+POST http://localhost:3000/users/register
+Content-Type: application/json
+
+{
+    "email": "njuguna@mail.com",
+    "fname": "Brian",
+    "lname": "Munyu",
+    "ts": "2020-05-19 11:25:25",
+    "pwd": "Patch"
+}
+
+#####
+
+POST http://localhost:3000/users/authenticate
+Content-Type: application/json
+
+{
+    "email": "njuguna@mail.com",
+    "pwd": "Path"
+}
