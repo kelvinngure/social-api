@@ -1,49 +1,35 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect  } from 'react'
 import {StyleSheet, TextInput, View, Text, TouchableOpacity} from 'react-native'
 import axios from "axios";
 import Colors from "../themes/Colors"
 
 
 
-export default class Login extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            email : "kelvin@mail.com",
-            password : "Njuguna",
-        }
-        this.validateEmail = this.validateEmail.bind(this);
-        this.validatePWD = this.validatePWD.bind(this);
-    }
+export default function LoginScreen ({ navigation, route }) {
+    
+    const[email, setEmail] = useState("kelvin@mail.com")
+    const[password, setPassword] = useState("Njuguna")
+    useEffect(()=>{
+        setEmail(email)
+        //setPassword(password)
+        setPassword(password) // here is where I can access the updated state 
+    })
+    
 
-    updateEmail = (text)=>{
-        this.setState({
-            email: text
-        }) 
-        
-    }
-
-    updatePWD = (text)=>{
-        this.setState({
-            password: text
-        })
-    }
-
-    validateEmail(email){
+    const validateEmail= (email) =>{
             const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if (reg.test(email) === true)  return true
             return false 
-            
         } 
 
-    validatePWD(pwd){
+    const validatePWD = (pwd) =>{
             if (pwd.length < 6)  return false
             return true
         }   
 
-    login(email, password){
-        const checkEmail = this.validateEmail(email);
-        const checkPWD = this.validatePWD(password)
+    const login = (email, password) =>{
+        const checkEmail = validateEmail(email);
+        const checkPWD = validatePWD(password)
 
         if (checkEmail === true && checkPWD === true){
             const url = `http://localhost:3000/users/authenticate`
@@ -78,32 +64,8 @@ export default class Login extends Component {
     }
 
 
-
-
-    
-    // login(email, password){
-    //     const checkEmail = this.validateEmail(email);
-    //     const checkPWD = this.validatePWD(password)
-    //     const valid = this.validateAccount(email, password)
-    //     console.log(valid)
-
-    //     if (checkEmail === true && checkPWD === true && valid){
-    //         const url = `http://localhost:3000/feed`
-    //         axios.get(url)
-    //         .then((res) => console.log(res))
-    //         .catch((e) => console.log(e))
-            
-            
-    //     }
-    //     else{
-    //         console.log(`invalid ${valid}`)
-    //     }
-         
-    // }
-
    
 
-    render() {
         return (
             <View style = {styles.body}>
                 <View>
@@ -112,24 +74,24 @@ export default class Login extends Component {
                     </View>
                     <View style={styles.formView}> 
                         <Text>Email</Text>
-                        <TextInput style={styles.logInput} value = {this.state.email} onChangeText = {(text)=>this.updateEmail(text) } underlineColorAndroid ={'rgba(0,0,0,0)'}></TextInput>
+                        <TextInput style={styles.logInput} value = {email} onChangeText = {(text)=>{setEmail(text)}} underlineColorAndroid ={'rgba(0,0,0,0)'}></TextInput>
                         <Text>Password</Text>
-                        <TextInput style={styles.logInput} secureTextEntry={true} value = {this.state.password} onChangeText = {(text)=>this.updatePWD(text)}></TextInput>
+                        <TextInput style={styles.logInput} secureTextEntry={true} onChangeText = {(text)=>{setPassword(text)}} value = {password}></TextInput>
                     </View>
                     <TouchableOpacity
                         style = {styles.loginButton}
-                        onPress = {() => this.login(this.state.email, this.state.password)}
+                        onPress = {() => login(email, password)}
                     >
                         <Text style = {styles.loginText}>Login</Text>
                     </TouchableOpacity>
                     <View style={styles.signUpView}>
-                        <Text style={styles.signUp}>Don't have an account yet?</Text>
+                        <Text style={styles.signUp} onPress={() => {navigation.navigate('Register')}}>Don't have an account yet?</Text>
                     </View>
                 </View>
             </View>
             
         )
-    }
+    
 }
 
 
