@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import {StyleSheet, TextInput, View, Text, TouchableOpacity} from 'react-native'
 import getCurrentExactTime from "../myModules/TimeCreator"
 import axios from "axios";
@@ -7,48 +7,23 @@ import BottomTabNavigator from "../navigation/BottomTabNavigator"
 
 
 
-export default class Register extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            email : "kelvin@mail.com",
-            password : "Njuguna",
-            firstName: "Kelvin",
-            lastName: "Njuguna"
-            //confirmPWD : "",
-        }
-        this.validateEmail = this.validateEmail.bind(this);
-        this.validatePWD = this.validatePWD.bind(this);
-    }
+export default function RegisterScreen({ navigation, route }) {
+   
 
-    updateEmail = (text)=>{
-        this.setState({
-            email: text
-        }) 
-        
-    }
+    const[email, setEmail] = useState("kelvin@mail.com")
+    const[password, setPassword] = useState("Njuguna")
+    const[firstName, setFirstName] = useState("Kelvin")
+    const[lastName, setLastName] = useState("Ngure")
 
-    updatePWD = (text)=>{
-        this.setState({
-            password: text
-        })
-    }
-
-    updateFirstName = (text)=>{
-        this.setState({
-            firstName: text
-        }) 
-        
-    }
-
-    updateLastName = (text)=>{
-        this.setState({
-            lastName: text
-        }) 
-        
-    }
-
-    validateEmail(email){
+    useEffect(()=>{
+        setEmail(email)
+        //setPassword(password)
+        setPassword(password) // here is where I can access the updated state 
+        setFirstName(firstName)
+        setLastName(lastName)
+    })
+    
+    const validateEmail = (email)=>{
             const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if (reg.test(email) === true)  return true
             return false 
@@ -56,25 +31,21 @@ export default class Register extends Component {
 
         } 
 
-    validatePWD(pwd){
+    const validatePWD= (pwd) => {
             if (pwd.length < 6)  return false
             return true
         } 
 
-    validateName(name){
+    const validateName= (name)=> {
             if (name.length > 1)  return true
             return false
-        }     
+        }   
 
-    
-
-
-    
-    submitDB(email, password, firstName, lastName){
-        const checkEmail = this.validateEmail(email);
-        const checkPWD = this.validatePWD(password)
-        const checkFname = this.validateName(firstName)
-        const checkLname = this.validateName(lastName)
+    const register = (email, password, firstName, lastName) => {
+        const checkEmail = validateEmail(email);
+        const checkPWD = validatePWD(password)
+        const checkFname = validateName(firstName)
+        const checkLname = validateName(lastName)
 
         if (checkEmail === true && checkPWD === true && checkFname == true && checkLname == true){
             const timeStamp = getCurrentExactTime()
@@ -100,9 +71,6 @@ export default class Register extends Component {
          
     }
 
-   
-
-    render() {
         return (
             <View style = {styles.body}>
                 <View style={styles.logoView}>
@@ -110,29 +78,29 @@ export default class Register extends Component {
                 </View>
                 <View style={styles.formView}> 
                     <Text>Email</Text>
-                    <TextInput style = {styles.logInput} value = {this.state.email} onChangeText = {(text)=>this.updateEmail(text)} underlineColorAndroid ={'rgba(0,0,0,0)'} ></TextInput>
+                    <TextInput style = {styles.logInput} value = {email} onChangeText = {(text)=>updateEmail(text)} underlineColorAndroid ={'rgba(0,0,0,0)'} ></TextInput>
                     <Text>First Name</Text>
-                    <TextInput style = {styles.logInput} value = {this.state.firstName} onChangeText = {(text)=>this.updateFirstName(text)} ></TextInput>
+                    <TextInput style = {styles.logInput} value = {firstName} onChangeText = {(text)=>updateFirstName(text)} ></TextInput>
                     <Text>Last Name</Text>
-                    <TextInput style = {styles.logInput} value = {this.state.lastName} onChangeText = {(text)=>this.updateLastName(text)} ></TextInput>
+                    <TextInput style = {styles.logInput} value = {lastName} onChangeText = {(text)=>updateLastName(text)} ></TextInput>
                     <Text>Password</Text>
-                    <TextInput style = {styles.logInput} secureTextEntry={true} value = {this.state.password} onChangeText = {(text)=>this.updatePWD(text)}></TextInput>
+                    <TextInput style = {styles.logInput} secureTextEntry={true} value = {password} onChangeText = {(text)=>updatePWD(text)}></TextInput>
                 </View>
                 <View>
                     <TouchableOpacity
                         style = {styles.loginButton}
-                        onPress = {() => this.submitDB(this.state.email, this.state.password, this.state.firstName, this.state.lastName)}
+                        onPress = {() => register(email, password, firstName, lastName)}
                     >
                         <Text style = {styles.loginText}>Register</Text>
                     </TouchableOpacity> 
                 </View>
                 <View style={styles.signUpView}>
-                    <Text style={styles.signUp}>Don't have an account yet?</Text>
+                    <Text style={styles.signUp} onPress={()=> {navigation.navigate('Login')}}>Already have an account?</Text>
                 </View>
             </View>
         )
     }
-}
+
 
 
 
