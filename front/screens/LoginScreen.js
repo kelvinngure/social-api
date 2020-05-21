@@ -2,10 +2,11 @@ import React, { useState, useEffect  } from 'react'
 import {StyleSheet, TextInput, View, Text, TouchableOpacity} from 'react-native'
 import axios from "axios";
 import Colors from "../themes/Colors"
+import { NavigationEvents } from 'react-navigation';
 
 
 
-export default function LoginScreen ({ navigation, route }) {
+export default function LoginScreen ({ online, navigation, route }) {
     
     const[email, setEmail] = useState("kelvin@mail.com")
     const[password, setPassword] = useState("Njuguna")
@@ -44,6 +45,7 @@ export default function LoginScreen ({ navigation, route }) {
                 if (res.status == 200){
                     console.log(res)
                     console.log("you're in")
+                    navigation.navigate('Boards')
                 }
                 else{
                     console.log(res)
