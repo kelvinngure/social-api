@@ -67,6 +67,7 @@ router.route("/authenticate")
                     }
                     else{// what to do when email doesn't exist in database
                         console.log("email no exist")
+                        res.status(204).send({ "code":204,"success":"The login details were incorrect"})
                     }
                 }
                 

@@ -20,5 +20,5 @@ Content-Type: application/json
 
 {
     "email": "njuguna@mail.com",
-    "pwd": "Path"
+    "pwd": "Patch"
 }
