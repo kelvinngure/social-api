@@ -1,38 +1,56 @@
+import 'react-native-gesture-handler';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
 import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
 
 import useCachedResources from './hooks/useCachedResources';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
-import LinkingConfiguration from './navigation/LinkingConfiguration';
-import Login from "./screens/LoginScreen"
-import Register from "./screens/RegisterScreen"
+import AuthNavigator from "./navigation/AuthNavigator"
 
 
- const Stack = createStackNavigator(//{
-//   Login: {screen: Login},
-//   Home: {screen: BottomTabNavigator}
-// }
-);
+ const Stack = createStackNavigator();
 
 export default function App(props) {
   const isLoadingComplete = useCachedResources();
+  const [online, setOnline] = useState(true)
+  useEffect(() => {
+  setOnline(online)
+  }
+  )
 
   if (!isLoadingComplete) {
-    return null;
+    return null; // create a splashscreen to return when loading
   } else {
     return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
-        <Register/> 
-        <Login/>
-        {/* <NavigationContainer linking={LinkingConfiguration}>
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={BottomTabNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer> */}
-      </View>
+      <NavigationContainer>
+      {online == false ? 
+      (
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Auth" component={AuthNavigator}/>
+        </Stack.Navigator>
+      ) 
+      :
+      (
+        <Stack.Navigator>
+        <Stack.Screen name="Boards" component={BottomTabNavigator}/>
+        </Stack.Navigator>
+      )
+      }
+    </NavigationContainer>
+  //onNavigationStateChange={handleNavigationChange}
+  //uriPrefix="/app"
+
+      // <NavigationContainer >
+      // <View style={styles.container}>
+      //   {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
+      //   <NavigationContainer linking={LinkingConfiguration} independent={true}>
+      //     <Stack.Navigator>
+      //       <Stack.Screen name="Login" component={AppNavigator} options={{ title: 'Overview' }} />
+      //     </Stack.Navigator>
+      //   </NavigationContainer>
+      // </View>
+      // </NavigationContainer>
     );
   }
 }
