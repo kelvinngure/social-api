@@ -6,8 +6,7 @@ import { NavigationEvents } from 'react-navigation';
 
 
 
-export default function LoginScreen ({ online, navigation, route }) {
-    
+export default function LoginScreen ({ online, navigation, route }) { 
     const[email, setEmail] = useState("kelvin@mail.com")
     const[password, setPassword] = useState("Njuguna")
     useEffect(()=>{
@@ -28,6 +27,7 @@ export default function LoginScreen ({ online, navigation, route }) {
             return true
         }   
 
+    
     const login = (email, password) =>{
         const checkEmail = validateEmail(email);
         const checkPWD = validatePWD(password)
@@ -82,7 +82,7 @@ export default function LoginScreen ({ online, navigation, route }) {
                     </View>
                     <TouchableOpacity
                         style = {styles.loginButton}
-                        onPress = {() => login(email, password)}
+                        onPress = {()=> login(email, password)}
                     >
                         <Text style = {styles.loginText}>Login</Text>
                     </TouchableOpacity>
