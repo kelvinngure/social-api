@@ -4,4 +4,4 @@ const LineContext = createContext()
 const LineProvider =LineContext.Provider
 const LineConsumer = LineContext.Consumer
 
-export  {LineProvider, LineConsumer}
+export  {LineContext, LineProvider, LineConsumer}
