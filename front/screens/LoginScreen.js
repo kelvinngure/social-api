@@ -1,12 +1,15 @@
-import React, { useState, useEffect  } from 'react'
+import React, { useState, useEffect, useReducer, useContext } from 'react'
 import {StyleSheet, TextInput, View, Text, TouchableOpacity} from 'react-native'
 import axios from "axios";
 import Colors from "../themes/Colors"
-import { NavigationEvents } from 'react-navigation';
+import { LineContext } from '../LineContext';
 
 
 
 export default function LoginScreen ({ online, navigation, route }) { 
+    
+    const { dispatch } = useContext(LineContext)
+
     const[email, setEmail] = useState("kelvin@mail.com")
     const[password, setPassword] = useState("Njuguna")
     useEffect(()=>{
@@ -45,7 +48,8 @@ export default function LoginScreen ({ online, navigation, route }) {
                 if (res.status == 200){
                     console.log(res)
                     console.log("you're in")
-                    navigation.navigate('Boards')
+                    dispatch({type: "LOGGED_IN"})
+                    navigation.navigate(navigation.navigate("App", { screen: 'Profile' }))
                 }
                 else{
                     console.log(res)
@@ -82,7 +86,7 @@ export default function LoginScreen ({ online, navigation, route }) {
                     </View>
                     <TouchableOpacity
                         style = {styles.loginButton}
-                        onPress = {()=> login(email, password)}
+                        onPress = {()=> {login(email, password)}}
                     >
                         <Text style = {styles.loginText}>Login</Text>
                     </TouchableOpacity>
