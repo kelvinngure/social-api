@@ -5,10 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, View} from 'react-native';
 
 import useCachedResources from './hooks/useCachedResources';
-import LoginScreen from "./screens/LoginScreen"
-import RegisterScreen from "./screens/RegisterScreen"
-import {LineProvider, LineConsumer} from "./LineContext"
+import {LineProvider} from "./lineContext"
 import BottomTabNavigator from './navigation/BottomTabNavigator';
+import AuthNavigator from './navigation/AuthNavigator';
 
 
 
@@ -26,7 +25,7 @@ const reducer = (state, action) => {
         ...state,
         isAuthenticated: true,
       };
-    case "LOGOUT":
+    case "LOGGED_OUT":
       return {
         ...state,
         isAuthenticated: false,
@@ -46,24 +45,23 @@ export default function App(props) {
     return (
       <LineProvider value={{state, dispatch}}>
       <View style = {styles.container}>
-        <NavigationContainer>
         
-          <LineConsumer>
-          {(state) => !state.isAuthenticated ? 
-          
+          {!state.isAuthenticated ? 
+            <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>
-              <Stack.Screen name= "Register" component={RegisterScreen}/>
-              <Stack.Screen name= "Login" component={LoginScreen}/>
+              <Stack.Screen name= "Auth" component={AuthNavigator}/>
             </Stack.Navigator>
+            </NavigationContainer>
           : 
+          <NavigationContainer>
             <Stack.Navigator>
-              <Stack.Screen name= "Profile" component={BottomTabNavigator}/>
+              <Stack.Screen name= "Home" component={BottomTabNavigator}/>
             </Stack.Navigator>
+          </NavigationContainer>
           
           }
-          </LineConsumer>
         
-      </NavigationContainer>
+     
     </View>
     </LineProvider>
   
