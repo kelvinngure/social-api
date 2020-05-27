@@ -49,7 +49,7 @@ export default function RegisterScreen({ navigation, route }) {
 
         if (checkEmail === true && checkPWD === true && checkFname == true && checkLname == true){
             const timeStamp = getCurrentExactTime()
-            const url = `http://localhost:3000/users/register`
+            const url = `https://boards-server.herokuapp.com/users/register`
             const body = {
                 "fname": `${firstName}`,
                 "lname": `${lastName}`,

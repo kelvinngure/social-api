@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Text, View, Image, StyleSheet, Dimensions } from 'react-native'
-import ProfileInfo from "./ProfileInfo"
 import Colors from "../themes/Colors"
 
 export class ProfileScreen extends Component {
@@ -17,10 +16,6 @@ export class ProfileScreen extends Component {
                     Active in: CMPSC 221, ACM
                 </Text>
                 </View>
-
-            <View>
-            <ProfileInfo/>
-            </View>
             </View>
         )
     }
