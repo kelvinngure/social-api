@@ -1,25 +1,30 @@
 const express = require("express")
 const app = express()
-// const conn = require('./Connection')
+
+const db = require("./Connection")
 const cors = require("cors")
-const bodyParser = require('body-parser');
-const userRoute = require("./routes/usersRoute")
-const feedRoute = require("./routes/feedRoute")
+const logger = require("morgan")
+
+const users = require("./routes/usersRoute")
 
 // MIDDLEWARE
+app.use(cors())
+app.use(logger('combined'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json())
+// app.use((req, res, next) =>{
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+// })
 
-
+app.get("/", (req, res) => {res.send("BOARDS")})
 // USE ROUTES
-app.use(cors())
-app.use("/users", userRoute)
-app.use("/feed", feedRoute)
+app.use("/users", users)
+
 
 // MAIN PAGE
-app.get("/", (req, res) => {res.send("BOARDS")})
+
 
 
 

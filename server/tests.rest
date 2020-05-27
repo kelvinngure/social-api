@@ -22,3 +22,27 @@ Content-Type: application/json
     "email": "njuguna@mail.com",
     "pwd": "Patch"
 }
+
+####
+
+POST https://boards-server.herokuapp.com/users/register
+Content-Type: application/json
+
+{
+    "email": "njuguna@mail.com",
+    "fname": "Brian",
+    "lname": "Munyu",
+    "ts": "2020-05-19 11:25:25",
+    "pwd": "Patch"
+}
+
+###
+POST https://boards-server.herokuapp.com/users/health
+
+###
+POST https://boards-server.herokuapp.com/users/health2
+Content-Type: application/json
+
+{
+    "item":"yours"
+}
