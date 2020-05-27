@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer, useContext } from 'react'
 import {StyleSheet, TextInput, View, Text, TouchableOpacity} from 'react-native'
 import axios from "axios";
 import Colors from "../themes/Colors"
-import { LineContext } from '../LineContext';
+import { LineContext } from '../lineContext';
 
 
 
@@ -36,7 +36,7 @@ export default function LoginScreen ({ online, navigation, route }) {
         const checkPWD = validatePWD(password)
 
         if (checkEmail === true && checkPWD === true){
-            const url = `http://localhost:3000/users/authenticate`
+            const url = `https://boards-server.herokuapp.com/users/login`
             const body = {
                 email: `${email}`,
                 pwd: `${password}`
@@ -49,7 +49,6 @@ export default function LoginScreen ({ online, navigation, route }) {
                     console.log(res)
                     console.log("you're in")
                     dispatch({type: "LOGGED_IN"})
-                    navigation.navigate(navigation.navigate("App", { screen: 'Profile' }))
                 }
                 else{
                     console.log(res)
