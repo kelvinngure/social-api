@@ -35,10 +35,15 @@ router.route("/register")
             const creator = `INSERT INTO users(email, firstName, lastName, createDate, password) values ("${req.body.email}", "${req.body.fname}", "${req.body.lname}", "${req.body.ts}", "${hashedPWD}")`
             db.query(creator, (error, result) => {
                             if (error) res.send("error while registering")
-                            console.log(`Account created. Welcome to Boards ${req.body.fname}`)
+                            else{
+                                const token = hat()
+                                console.log(`Account created. Welcome to Boards ${req.body.fname}`)
+                                
+                                res.setHeader('Content-Type', 'application/json');
+                                res.send({"success":`welcome to boards ${req.body.fname}}`, "token":`${token}`})
+                            }
+                            
                     })
-            res.setHeader('Content-Type', 'text/plain');
-            res.send(`Account created. Welcome to Boards ${req.body.fname}`)
         }
         catch(e){(e) => console.log(e)}
         
@@ -61,22 +66,21 @@ router.route("/login")
                         // what to do when the email does exist in the database 
                         const checkPWD = await bcrypt.compare(req.body.pwd, result[0].password)
                         if(checkPWD){ // when the password is correct
-                            const id = hat()
+                            const token = hat()
                             res.status(200).send({"success":"welcome back to boards",
-                        "token":`${id}`})
+                        "token":`${token}`})
                         }
                         else{ // when the password is incorrect
-                        res.status(204).send({ "code":204,"success":"The login details were incorrect"})
+                        res.status(204).send({ "code":204,"error":"The login details were incorrect"})
                         }
                     }
                     else{// what to do when email doesn't exist in database
                         console.log("email no exist")
-                        res.status(204).send({ "code":204,"success":"The login details were incorrect"})
+                        res.status(204).send({ "code":204,"error":"The login details were incorrect"})
                     }
                 }
                 
             })
-            res.send("login")
         } catch(e){(e) => {console.log(e)}}       
 })
 
