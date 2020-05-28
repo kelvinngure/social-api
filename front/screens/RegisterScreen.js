@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {StyleSheet, TextInput, View, Text, TouchableOpacity} from 'react-native'
 import getCurrentExactTime from "../myModules/TimeCreator"
 import axios from "axios";
 import BottomTabNavigator from "../navigation/BottomTabNavigator"
+import { LineContext } from '../lineContext';
 
 
 
 
 export default function RegisterScreen({ navigation, route }) {
-   
+    
+    const { dispatch } = useContext(LineContext)
 
     const[email, setEmail] = useState("kelvin@mail.com")
     const[password, setPassword] = useState("Njuguna")
@@ -60,7 +62,10 @@ export default function RegisterScreen({ navigation, route }) {
             axios.post(url,body, {
                 headers: { 'Content-Type': 'application/json' },
             })
-            .then((res) => console.log(res.data))
+            .then((res) => {
+                console.log(res.data)
+                dispatch({type: "LOGGED_IN"})
+            })
             .catch((e) => console.log(e))
             
             
@@ -78,13 +83,13 @@ export default function RegisterScreen({ navigation, route }) {
                 </View>
                 <View style={styles.formView}> 
                     <Text>Email</Text>
-                    <TextInput style = {styles.logInput} value = {email} onChangeText = {(text)=>updateEmail(text)} underlineColorAndroid ={'rgba(0,0,0,0)'} ></TextInput>
+                    <TextInput style = {styles.logInput} value = {email} onChangeText = {(text)=>setEmail(text)} underlineColorAndroid ={'rgba(0,0,0,0)'} ></TextInput>
                     <Text>First Name</Text>
-                    <TextInput style = {styles.logInput} value = {firstName} onChangeText = {(text)=>updateFirstName(text)} ></TextInput>
+                    <TextInput style = {styles.logInput} value = {firstName} onChangeText = {(text)=>setFirstName(text)} ></TextInput>
                     <Text>Last Name</Text>
-                    <TextInput style = {styles.logInput} value = {lastName} onChangeText = {(text)=>updateLastName(text)} ></TextInput>
+                    <TextInput style = {styles.logInput} value = {lastName} onChangeText = {(text)=>setLastName(text)} ></TextInput>
                     <Text>Password</Text>
-                    <TextInput style = {styles.logInput} secureTextEntry={true} value = {password} onChangeText = {(text)=>updatePWD(text)}></TextInput>
+                    <TextInput style = {styles.logInput} secureTextEntry={true} value = {password} onChangeText = {(text)=>setPassword(text)}></TextInput>
                 </View>
                 <View>
                     <TouchableOpacity
