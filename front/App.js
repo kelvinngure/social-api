@@ -9,6 +9,8 @@ import {LineProvider} from "./lineContext"
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import AuthNavigator from './navigation/AuthNavigator';
 
+import { storeToken, getToken, deleteToken } from "./actions/TokenHandle"
+
 
 
 const Stack = createStackNavigator();
@@ -16,19 +18,24 @@ const Stack = createStackNavigator();
 //options={{headerShown: false}}
 const initialState = {
   isAuthenticated: false,
+  token: null
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGGED_IN":
+      storeToken(`${action.payload}`)
       return {
         ...state,
         isAuthenticated: true,
+        token: action.payload
       };
     case "LOGGED_OUT":
+      deleteToken()
       return {
         ...state,
         isAuthenticated: false,
+        token:null
       };
     default:
       return state;
