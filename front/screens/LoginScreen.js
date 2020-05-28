@@ -3,6 +3,7 @@ import {StyleSheet, TextInput, View, Text, TouchableOpacity} from 'react-native'
 import axios from "axios";
 import Colors from "../themes/Colors"
 import { LineContext } from '../lineContext';
+import { storeToken, getToken } from "../actions/TokenHandle"
 
 
 
@@ -46,9 +47,8 @@ export default function LoginScreen ({ online, navigation, route }) {
             })
             .then((res) => {
                 if (res.status == 200){
-                    console.log(res)
-                    console.log("you're in")
-                    dispatch({type: "LOGGED_IN"})
+                    console.log(`Token before dispatch: ${res.data.token}`)
+                    dispatch({type: "LOGGED_IN", payload: `${res.data.token}`})
                 }
                 else{
                     console.log(res)
