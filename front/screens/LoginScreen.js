@@ -7,7 +7,7 @@ import { storeToken, getToken } from "../actions/TokenHandle"
 
 
 
-export default function LoginScreen ({ online, navigation, route }) { 
+export default function LoginScreen ({  navigation  }) { 
     
     const { dispatch } = useContext(LineContext)
 
@@ -15,7 +15,6 @@ export default function LoginScreen ({ online, navigation, route }) {
     const[password, setPassword] = useState("Njuguna")
     useEffect(()=>{
         setEmail(email)
-        //setPassword(password)
         setPassword(password) // here is where I can access the updated state 
     })
     
@@ -47,6 +46,9 @@ export default function LoginScreen ({ online, navigation, route }) {
             })
             .then((res) => {
                 if (res.status == 200){
+                    // console.log(typeof(token))
+                    // const tos = JSON.stringify(token)
+                    // console.log(typeof(tos))
                     console.log(`Token before dispatch: ${res.data.token}`)
                     dispatch({type: "LOGGED_IN", payload: `${res.data.token}`})
                 }
