@@ -2,12 +2,7 @@ import  AsyncStorage  from "@react-native-community/async-storage"; //make sure 
 
 const storeToken = async (token) => {
     try {
-        console.log("storing...")
-      await AsyncStorage.setItem(
-        'boardsToken',
-        JSON.stringify(token)
-      )
-      
+      await AsyncStorage.setItem('boardsToken',JSON.stringify(token))
     } catch (error) {
       console.log(error)
     }
@@ -15,19 +10,18 @@ const storeToken = async (token) => {
 
  const getToken = async () => {
     try {
-        console.log("getting")
-      const value = await AsyncStorage.getItem("boardsToken");
-      if (value !== null) {
-        // We have data!!
-        console.log(value);
+      const value = await AsyncStorage.getItem('boardsToken');
+      if(typeof value === 'undefined') {
+        console.log(`no token`);
+        return null
       }
       else{
-          console.log("not token stored")
+          console.log(`token found is ${value}`)
+          return value
       }
-
-      console.log("done get")
     } catch (error) {
         console.log("error getting token")
+        return null
     }
   };
 
