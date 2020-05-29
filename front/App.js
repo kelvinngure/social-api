@@ -16,25 +16,25 @@ import { storeToken, getToken, deleteToken } from "./actions/TokenHandle"
 const Stack = createStackNavigator();
 
 //options={{headerShown: false}}
+const token = getToken()
 const initialState = {
-  isAuthenticated: false,
-  token: null
+  token: token
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
+
     case "LOGGED_IN":
       storeToken(`${action.payload}`)
       return {
         ...state,
-        isAuthenticated: true,
         token: action.payload
       };
+
     case "LOGGED_OUT":
       deleteToken()
       return {
         ...state,
-        isAuthenticated: false,
         token:null
       };
     default:
@@ -43,18 +43,18 @@ const reducer = (state, action) => {
 };
 
 export default function App(props) {
-  const isLoadingComplete = useCachedResources();
+  const [isLoadingComplete] = useCachedResources();
   const [state, dispatch] = React.useReducer(reducer, initialState);
+ 
 
   if (!isLoadingComplete) {
     return null; // create a splashscreen to return when loading
   } else {
     return (
       <LineProvider value={{state, dispatch}}>
-      <View style = {styles.container}>
         
-          {!state.isAuthenticated ? 
-            <NavigationContainer>
+          {(typeof(state.token) !== 'string')? 
+            <NavigationContainer style= {styles.container}>
             <Stack.Navigator screenOptions={{headerShown: false}}>
               <Stack.Screen name= "Auth" component={AuthNavigator}/>
             </Stack.Navigator>
@@ -65,16 +65,13 @@ export default function App(props) {
               <Stack.Screen name= "Home" component={BottomTabNavigator}/>
             </Stack.Navigator>
           </NavigationContainer>
-          
           }
-        
-     
-    </View>
     </LineProvider>
   
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
