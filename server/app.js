@@ -9,6 +9,7 @@ const logger = require("morgan")
 // ROUTES
 const users = require("./routes/usersRoute")
 const sessions = require("./routes/sessions")
+const posts = require("./routes/posts")
 
 // MIDDLEWARE
 app.use(cors())
@@ -16,12 +17,14 @@ app.use(logger('combined'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 // MAIN
 app.get("/", (req, res) => {res.send("BOARDS")})
 
-// OTHER ROUTES
+// ROUTERS
 app.use("/users", users)
 app.use("/sessions", sessions)
+app.use("/posts", posts)
 
 
 
