@@ -7,37 +7,49 @@ const bcrypt = require("bcryptjs")
 const hat = require('hat')
 const db = require("../Connection")
 const jwt = require('jsonwebtoken')
+
 const authorize = require("../middleware/authorize")
 const key = process.env.ACCESS_TOKEN_SECRET
 
 
-
 // routing to "/posts"
-
 router.route("/")
-    .post(authorize, (req, res) => {
-        res.json({
-            posts: [{
-                    title: "post 1 title",
-                    content: "post 1 contentssss"
-                    }
-            ]
-        })
-        // const users = `SELECT * FROM posts`
-        // db.query(users, (error, result) => {
-        //                 if (error) res.send("error in my db ...")
-        //                 res.setHeader('Content-Type', 'application/json');
-        //                 res.send(result)
-                        
-        //         })
-                
+    .get((req, res) => {
+        res.send("IN POSTS")      
     })
 
+// GET ALL POSTS
+router.route("/all")
+    .get(authorize, (req, res) => {
+        const allPost = `SELECT * FROM posts`
 
+        db.query(allPost, (error, result) => {
+            if (error) console.log("selecting all post error")
+            res.json(result)
+        })      
+    })
+
+// MAKE NEW POST
+router.route("/new")
+    .post(authorize, (req, res) => {
+        const post = {
+            userId: req.body.payload.userId,
+            ts: req.body.payload.ts,
+            title: req.body.payload.title,
+            content: req.body.payload.content
+        }
+        const newPost = `INSERT INTO posts (userId, create_date, title, content) VALUES ("${post.userId}", "${post.ts}", "${post.title}", "${post.content}")`
+        
+        db.query(newPost, (error, result) => {
+            if (error) res.status(401).json({"message": "post creation error"})
+            res.json({"message": "post created"})
+        })
+    })
 
 
 module.exports = router;
     
+
 
 
 

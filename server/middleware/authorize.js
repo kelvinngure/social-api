@@ -14,9 +14,10 @@ const authorize = (req, res, next) => {
 
         // verify token the send appropriate response
         jwt.verify(token, key, (err, info) => {
-                if (err) {res.status(401).send({"message": "access denied"})}
+                if (err) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.status(401).json({"message": "access denied"})}
                 else {
-                    res.json({message: "token ok"})
                     next()
                 }
            })
@@ -24,7 +25,7 @@ const authorize = (req, res, next) => {
     }
     catch(e){
         return res.status(401).json({
-            message: `${e}`
+            message: `auth error: ${e}`
         })
     }
 }
