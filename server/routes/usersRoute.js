@@ -8,11 +8,14 @@ const hat = require('hat')
 const db = require("../Connection")
 const jwt = require('jsonwebtoken')
 
+const authorize = require("../middleware/authorize")
+const key = process.env.ACCESS_TOKEN_SECRET
+
 
 
 // routing to "/users"
 
-router.route("/")
+router.route("/", )
     .get((req, res) => {
         const users = `SELECT * FROM users`
         db.query(users, (error, result) => {
@@ -52,7 +55,7 @@ router.route("/register")
                             if (error) res.send("error while registering")
                             else{
                                 //jwt
-                                const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, ((err, token)=> {
+                                const token = jwt.sign(payload, key, ((err, token)=> {
                                     if (err) {console.log(err)}
                                     else{console.log(`jwt created ${token}`)
                                     
@@ -118,6 +121,8 @@ router.route("/login")
             })
         } catch(e){(e) => {console.log(e)}}       
 })
+
+
 
 
 module.exports = router;
