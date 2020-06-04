@@ -8,6 +8,7 @@ const logger = require("morgan")
 
 // ROUTES
 const users = require("./routes/usersRoute")
+const user = require("./routes/user")
 const sessions = require("./routes/sessions")
 const posts = require("./routes/posts")
 
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {res.send("BOARDS")})
 
 // ROUTERS
 app.use("/users", users)
+app.use("/user", user)
 app.use("/sessions", sessions)
 app.use("/posts", posts)
 
