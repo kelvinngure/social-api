@@ -44,7 +44,6 @@ export default function Login({navigation}) {
             })
             .then((res) => {
                 if (res.status == 200){
-                    console.log(`Token before dispatch: ${res.data.token}`)
                     dispatch({type: "LOGGED_IN", payload: `${res.data.token}`})
                 }
                 else{
