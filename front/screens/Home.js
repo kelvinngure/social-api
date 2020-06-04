@@ -1,12 +1,17 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
+// THIS IS THE FEED SCREEN IN BOARDS BOTTOM TAB NAV
 export default function Home() {
+  
+
+
   return (
-      <View>
+      <ScrollView>
       <Text>HOME</Text>
-    </View>
+    </ScrollView>
     
   );
 }
