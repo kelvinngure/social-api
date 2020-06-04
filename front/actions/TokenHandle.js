@@ -10,21 +10,15 @@ const storeToken = async (token) => {
     }
   };
 
- const getToken = async () => {
-    try {
+ const getToken = async() => {
       //console.log("getting token")
-      const value = await AsyncStorage.getItem('boardsToken');
-      if(typeof value === 'undefined') {
-        console.log("there was no token got")
-        return null
+      try{ 
+        const x = await AsyncStorage.getItem('boardsToken')
+        //console.log(x)
+        return x 
+      }  catch(e){
+        console.log("getting token error")
       }
-      else{
-        //console.log(`token got ${value}`)
-          return value
-      }
-    } catch (error) {
-        return null
-    }
   };
 
   const deleteToken = async () => {
