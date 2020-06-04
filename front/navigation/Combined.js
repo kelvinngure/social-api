@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 export default function Combined() {
   return (
     <LineConsumer>
-      {initialState => initialState.state.line  ? console.log(initialState) : console.log(initialState)}
+      {state => state.state.line ? <Boards/>: <Auth/>}
     </LineConsumer>
     
     
