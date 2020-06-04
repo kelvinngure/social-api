@@ -1,16 +1,18 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, SafeAreaView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Combined from "./navigation/Combined"
 import { LineProvider } from "./contexts/LineContext"
-import useCachedResources from "./hooks/preLoad"
 import { storeToken, getToken, deleteToken } from "./actions/TokenHandle"
 
 const Tab = createBottomTabNavigator();
-
-
+ 
+let initialState = {
+  line: false,
+  refreshToken: null
+}
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -24,6 +26,7 @@ const reducer = (state, action) => {
       };
 
     case "LOGGED_OUT":
+      deleteToken()
       return {
         ...state,
         line: false,
@@ -39,32 +42,36 @@ const reducer = (state, action) => {
 
 export default function App() {
   
-  const [line, token] = useCachedResources();
-  console.log(`la token ${token}`)
-  console.log(`la line ${line}`)
+  const token = getToken().then(token => console.log(`token log ${token}`))
 
-  let initialState = {
-    line: line,
+  console.log(`token 1 ${token}`)
+
+  if (token){
+  initialState = {
+    line: true,
     refreshToken: token
-  }
+  }}
+  
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   return (
-    <NavigationContainer>
-      <LineProvider value ={{state, dispatch}}>
-        <Combined/>
-      </LineProvider>
-    </NavigationContainer>
+    <SafeAreaView style={styles.container}>
+      <NavigationContainer>
+        <LineProvider value ={{state, dispatch}}>
+          <Combined/>
+        </LineProvider>
+      </NavigationContainer>
+    </SafeAreaView>
     
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: StatusBar.currentHeight,
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
 });
