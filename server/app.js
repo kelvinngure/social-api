@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express()
-
+var path = require('path');
 const db = require("./Connection")
 const cors = require("cors")
 const logger = require("morgan")
@@ -20,7 +20,9 @@ app.use(express.json());
 
 
 // MAIN
-app.get("/", (req, res) => {res.send("BOARDS")})
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname + '/webpages/doc.html'));
+})
 
 // ROUTERS
 app.use("/users", users)
