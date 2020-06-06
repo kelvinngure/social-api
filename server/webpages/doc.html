@@ -17,7 +17,42 @@
             <h1>BOARDS DOCUMENTATION</h1>
         </div>
         <div class="jumbotron">
-            <h1>BOARDS DOCUMENTATION</h1>
+            <h4>RESOURCES</h4>
+            <h3> /user(s) </h3>
+            <p class="text-danger">!!keep note of singular vs plural. user will be used for specific user actions</p>
+            <Resource>
+            <b>GET all users</b>
+            <p>endpoint: <mark> /users </mark></p>
+            <p>returned object: 
+                <div class="jumbotron" style = "background-color: #7980e0; padding-top: 0; padding-bottom: 0; color: #f5f5f7;">
+                    [<br>
+                        {<br>"idusers":1,<br>
+                        "firstName":"kelvin",<br>
+                        "lastName":"ngure",<br>
+                        "email":"kelvin@mail.com",<br>
+                        "createDate":"2020-05-19 11:25:25",<br>
+                        "password":"password"<br>}<br>]<br>
+                    </p>
+                </div>
+            </Resource>
+            
+            <Resource>
+                <b>GET user by id</b>
+                <p>endpoint: <mark> /user/:id </mark></p>
+                <p>returned object: 
+                    <div class="jumbotron" style = "background-color: #7980e0; padding-top: 0; padding-bottom: 0; color: #f5f5f7;">
+                        [<br>
+                            {<br>"id":1,<br>
+                            "email":"kelvin@mail.com",<br>
+                            "fname":"kelvin",<br>
+                            "lname":"ngure"<br>}<br>]<br>
+                        </p>
+                    </div>
+                </Resource>
+                
+            <h4>routes such as /login /register /post e.t.c work. Documentation will continue to be updated</h4>
+
+
         </div>
     </div>
 
