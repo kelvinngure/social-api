@@ -1,13 +1,11 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet, Text, View, StatusBar, SafeAreaView } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import Combined from "./navigation/Combined"
 import { LineProvider } from "./contexts/LineContext"
 import { storeToken, getToken, deleteToken } from "./actions/TokenHandle"
-
-const Tab = createBottomTabNavigator();
+import Loading from "./screens/App/Loading"
  
 let initialState = {
   line: false,
@@ -17,12 +15,26 @@ let initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
 
+    case "TK":
+      return {
+        ...state,
+        line: true,
+        refreshToken: action.payload
+      };
+
+    case "NoTK":
+      return {
+        ...state,
+        line: false,
+        refreshToken: null
+      };
+      
     case "LOGGED_IN":
       storeToken(`${action.payload}`)
       return {
         ...state,
         line: true,
-        refreshToken: action.payload
+        refreshToken: "fdssf"
       };
 
     case "LOGGED_OUT":
@@ -34,37 +46,45 @@ const reducer = (state, action) => {
       };
       
     default:
-      console.log(`start state ${state}`)
       return state;
   }
 };
 
 
+
+
 export default function App() {
-  
-  const token = getToken().then(token => console.log(`token log ${token}`))
-
-  console.log(`token 1 ${token}`)
-
-  if (token){
-  initialState = {
-    line: true,
-    refreshToken: token
-  }}
-  
-
+  const [isLoaded, setLoad] = useState(false)
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
+  useEffect(() => {
+    let mounted = true;
+    
+    if (mounted){
+    getToken().then(token => token ? 
+            dispatch({type: "TK", payload: token})
+            :
+            dispatch({type: "NoTK"})
+    )
+    }
+      setLoad(true)
+      return () => mounted = false
+  }, [])
+
+  if (!isLoaded) {
+    return( <Loading/> )
+  }else{
   return (
+    <NavigationContainer>
     <SafeAreaView style={styles.container}>
-      <NavigationContainer>
         <LineProvider value ={{state, dispatch}}>
           <Combined/>
         </LineProvider>
-      </NavigationContainer>
     </SafeAreaView>
+      </NavigationContainer>
     
   );
+}
 }
 
 const styles = StyleSheet.create({
