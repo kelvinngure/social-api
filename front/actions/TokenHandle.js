@@ -1,23 +1,12 @@
 import  AsyncStorage  from "@react-native-community/async-storage"; //make sure not to wrap the import in curly braces since you've directly accessed the object
 
-const storeToken = async (token, user) => {
-    try {
-      console.log("storing token")
-      await AsyncStorage.setItem('boardsToken', token)
-      await AsyncStorage.setItem('user', user)
-      console.log(`stored ${token}`)
-    } catch (error) {
-      console.log(`Storing error`)
-    }
-  };
-
  const getToken = async() => {
       //console.log("getting token")
       try{ 
-        const x = await AsyncStorage.getItem('boardsToken')
-        const y = await AsyncStorage.getItem('user')
-        console.log(`sent ${x}`)
-        return [x, y]
+        const x = await AsyncStorage.getItem('accessToken')
+        const y = await AsyncStorage.getItem('accessToken')
+        const z = await AsyncStorage.getItem('user')
+        return [x, y, z]
       }  catch(e){
         console.log("getting token error")
       }
@@ -26,7 +15,7 @@ const storeToken = async (token, user) => {
   const deleteToken = async () => {
     try {
       console.log("deleting token")
-        const value = await AsyncStorage.removeItem("boardsToken");
+        const value = await AsyncStorage.removeItem("accessToken");
         const value2 = await AsyncStorage.removeItem("user");
         console.log("deleted token and user")
     } catch (error) {
@@ -34,7 +23,19 @@ const storeToken = async (token, user) => {
     }
   };
 
-export { storeToken, getToken, deleteToken}
+  ///// FOR REFRESH TOKEN
+  const storeRefreshToken = async (accessToken, refreshToken, user) => {
+    try {
+      console.log("storing token")
+      await AsyncStorage.setItem('accessToken', accessToken)
+      await AsyncStorage.setItem('refreshToken', refreshToken)
+      await AsyncStorage.setItem('user', JSON.stringify(user))
+    } catch (error) {
+      console.log(`Storing refreshtoken error`)
+    }
+  };
+
+export { getToken, deleteToken, storeRefreshToken}
 
   
 
