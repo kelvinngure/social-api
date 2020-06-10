@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import Combined from "./navigation/Combined"
 import { LineProvider } from "./contexts/LineContext"
-import { storeToken, getToken, deleteToken } from "./actions/TokenHandle"
+import { getToken, deleteToken, storeRefreshToken } from "./actions/TokenHandle"
 import Loading from "./screens/App/Loading"
  
 let initialState = {
@@ -17,16 +17,13 @@ const reducer = (state, action) => {
   switch (action.type) {
 
     case "TK":
-      console.log(action.payload[1])
+      const data = JSON.parse(action.payload[1]) // user info
+      console.log(data)
       return {
         ...state,
         line: true,
         refreshToken: action.payload[0],
-        user: action.payload[1],
-        uid: action.payload[1].uid,
-        email: action.payload[1].email,
-        fname: action.payload[1].fname,
-        lname: action.payload[1].lname
+        user: data
       };
 
     case "NoTK":
@@ -35,9 +32,19 @@ const reducer = (state, action) => {
         line: false,
         refreshToken: null
       };
+
+    case "REGISTERED":
+      storeRefreshToken(action.payload.refreshToken, action.payload.accessToken, JSON.toString(action.payload.user))
+      return {
+        ...state,
+        line: true,
+        refreshToken: action.payload.refreshToken,
+        accessToken: action.payload.accesToken,
+        user: action.payload.user
+      };
       
     case "LOGGED_IN":
-      storeToken(action.payload.token, action.payload.user)
+      storeRefreshToken(action.payload.token, action.payload.user)
       console.log(`action payload ${action.payload.token} ${action.payload.user}`)
       return {
         ...state,
@@ -72,7 +79,9 @@ export default function App() {
     
     if (mounted){
     getToken().then(data => (data[0] && data[1]) ? 
-            console.log(data[0] && data[1])
+            dispatch(
+              {type: "TK", payload:data}
+              )
             :
             dispatch({type: "NoTK"})
     )
