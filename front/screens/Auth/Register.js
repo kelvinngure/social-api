@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import {StyleSheet, TextInput, View, Text, TouchableOpacity} from 'react-native'
 import getCurrentExactTime from "../../myModules/TimeCreator"
 import axios from "axios";
+import Colors from "../../themes/Colors"
 import { LineContext } from "../../contexts/LineContext"
 
 
@@ -54,7 +55,12 @@ export default function Register({navigation}) {
             })
             .then((res) => {
                 console.log(res.data)
-                dispatch({type: "LOGGED_IN"})
+                dispatch({type: "REGISTERED", payload: {
+                    "refreshToken": `${res.data.refreshToken}`,
+                    "accessToken": `${res.data.accessToken}`,
+                    "user": res.data.user
+                }
+            })
             })
             .catch((e) => console.log(e))
             
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: 'center',
-        backgroundColor: '#c49a47'
+        backgroundColor: Colors.blueTheme
    },
    logoView:{
    },
@@ -135,7 +141,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
        // color: 'white',
         alignItems: 'center',
-        backgroundColor: '#664f21'
+        backgroundColor: '#1c4d66'
    },
    loginText: {
         fontSize: 23,

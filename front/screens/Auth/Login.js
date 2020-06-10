@@ -11,22 +11,34 @@ export default function Login({navigation}) {
 
     const[email, setEmail] = useState("kelvin@mail.com")
     const[password, setPassword] = useState("Njuguna")
+    const[loadingbtn, setLoadingBtn] = useState(true)
+    const[emailWarn, setEmailWarn] = useState("")
+    const[pwdWarn, setPwdWarn] = useState("")
    
     
 
     const validateEmail= (email) =>{
             const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if (reg.test(email) === true)  return true
+            if (email === "") {
+                setEmailWarn("email cannot be empty")
+                setLoadingBtn(true)
+            }
             return false 
         } 
 
     const validatePWD = (pwd) =>{
-            if (pwd.length < 6)  return false
+            if (pwd.length < 6) {
+                setPwdWarn("password must be longer than 6 characters")
+                setLoadingBtn(true)
+                return false
+            }
             return true
         }   
 
     
     const login = (email, password) =>{
+        setLoadingBtn(false)
         const checkEmail = validateEmail(email);
         const checkPWD = validatePWD(password)
 
@@ -49,16 +61,19 @@ export default function Login({navigation}) {
                         "user": res.data.user
                     }
                     })
+                    setLoadingBtn(true)
                 }
                 else{
                     console.log(res)
                     console.log(state)
                     console.log("incorrect password and email")
+                    setLoadingBtn(true)
                 }
             }
                 )
             .catch((e) => {
                 console.log(e)
+                setLoadingBtn(true)
                 return false
             })
             
@@ -79,15 +94,17 @@ export default function Login({navigation}) {
                     </View>
                     <View style={styles.formView}> 
                         <Text>Email</Text>
+                        <Text>{emailWarn}</Text>
                         <TextInput style={styles.logInput} value = {email} onChangeText = {(text)=>{setEmail(text)}} underlineColorAndroid ={'rgba(0,0,0,0)'}></TextInput>
                         <Text>Password</Text>
+                        <Text>{pwdWarn}</Text>
                         <TextInput style={styles.logInput} secureTextEntry={true} onChangeText = {(text)=>{setPassword(text)}} value = {password}></TextInput>
                     </View>
                     <TouchableOpacity
                         style = {styles.loginButton}
                         onPress = {()=> {login(email, password)}}
                     >
-                        <Text style = {styles.loginText}>Login</Text>
+                        {loadingbtn ? <Text style = {styles.loginText}>Login</Text> : <Text style = {styles.loginText}>Loading...</Text>}
                     </TouchableOpacity>
                     <View style={styles.signUpView}>
                         <Text style={styles.signUp} onPress={() => {navigation.navigate('Register')}}>Don't have an account yet?</Text>
