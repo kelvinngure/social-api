@@ -9,17 +9,24 @@ import Loading from "./screens/App/Loading"
  
 let initialState = {
   line: false,
-  refreshToken: null
+  refreshToken: null,
+  user: null
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
 
     case "TK":
+      console.log(action.payload[1])
       return {
         ...state,
         line: true,
-        refreshToken: action.payload
+        refreshToken: action.payload[0],
+        user: action.payload[1],
+        uid: action.payload[1].uid,
+        email: action.payload[1].email,
+        fname: action.payload[1].fname,
+        lname: action.payload[1].lname
       };
 
     case "NoTK":
@@ -30,11 +37,13 @@ const reducer = (state, action) => {
       };
       
     case "LOGGED_IN":
-      storeToken(`${action.payload}`)
+      storeToken(action.payload.token, action.payload.user)
+      console.log(`action payload ${action.payload.token} ${action.payload.user}`)
       return {
         ...state,
         line: true,
-        refreshToken: "fdssf"
+        refreshToken: action.payload.token,
+        user: action.payload.user
       };
 
     case "LOGGED_OUT":
@@ -42,7 +51,8 @@ const reducer = (state, action) => {
       return {
         ...state,
         line: false,
-        refreshToken: null
+        refreshToken: null,
+        user: null
       };
       
     default:
@@ -61,8 +71,8 @@ export default function App() {
     let mounted = true;
     
     if (mounted){
-    getToken().then(token => token ? 
-            dispatch({type: "TK", payload: token})
+    getToken().then(data => (data[0] && data[1]) ? 
+            console.log(data[0] && data[1])
             :
             dispatch({type: "NoTK"})
     )
