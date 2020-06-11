@@ -27,8 +27,8 @@ import  AsyncStorage  from "@react-native-community/async-storage"; //make sure 
   const storeRefreshToken = async (accessToken, refreshToken, user) => {
     try {
       console.log("storing token")
-      await AsyncStorage.setItem('accessToken', accessToken)
-      await AsyncStorage.setItem('refreshToken', refreshToken)
+      await AsyncStorage.setItem('accessToken', JSON.stringify(accessToken))
+      await AsyncStorage.setItem('refreshToken', JSON.stringify(refreshToken))
       await AsyncStorage.setItem('user', JSON.stringify(user))
     } catch (error) {
       console.log(`Storing refreshtoken error`)
