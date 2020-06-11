@@ -3,6 +3,7 @@ const app = express()
 var path = require('path');
 const db = require("./Connection")
 const cors = require("cors")
+app.use(cors())
 const logger = require("morgan")
 
 
