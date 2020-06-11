@@ -4,7 +4,7 @@ import { Text, ScrollView} from 'react-native'
 export default function Info() {
         return (
             <ScrollView>
-            <Text>INFO</Text>
+            <Text>RECENT</Text>
             </ScrollView>
         )
     
