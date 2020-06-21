@@ -22,7 +22,7 @@ router.route("/")
 router.route("/:id")
     .get((req, res) => {
         userId = req.params.id
-        const user = `SELECT * FROM users WHERE idusers = ${userId}`
+        const user = `SELECT * FROM users WHERE idusers = "${userId}"`
 
         db.query(user, (error, result) => {
             if (error) console.log("selecting user error")
@@ -34,6 +34,46 @@ router.route("/:id")
             }
             res.json(userCred)
         })      
+    })
+
+// GET FOLLOWERS 
+router.route("/followers/:id")
+    .get((req, res) => {
+        userId = req.params.id
+        const getFollowers = `SELECT followerId FROM follows WHERE idusers = "${userId}"`
+        
+
+        db.query(getFollowers, (err, result) => {
+            if (err) console.log("error getting followers")
+            else{
+                const numFollowers = result.length
+                const payload = {
+                    num: numFollowers,
+                    ids: result
+                }
+                res.send(payload)
+            }
+        })
+    })
+
+// GET FOLLOWING
+router.route("/following/:id")
+    .get((req, res) => {
+        userId = req.params.id
+        const getFollowers = `SELECT idUsers FROM follows WHERE followerId = "${userId}"`
+        
+
+        db.query(getFollowers, (err, result) => {
+            if (err) console.log("error getting followers")
+            else{
+                const numFollowers = result.length
+                const payload = {
+                    num: numFollowers,
+                    ids: result
+                }
+                res.send(payload)
+            }
+        })
     })
 
 
