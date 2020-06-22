@@ -11,7 +11,7 @@ const Logout = () => {
     return(
 <View>
     <TouchableOpacity onPress = {() => {dispatch({type:"LOGGED_OUT"})}}>
-        <Text>Logout</Text>
+        <Text>Logt</Text>
     </TouchableOpacity>
      </View>
     )

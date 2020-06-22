@@ -14,8 +14,8 @@ export default function Boards() {
   return (
       
       <Tab.Navigator>
+      <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Profile" component={Profile} />
-        <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Find" component={Find} />
         <Tab.Screen name="Logout" component={Logout} />
       </Tab.Navigator>

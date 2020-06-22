@@ -95,12 +95,12 @@ export default function App() {
   }else{
   return (
     <NavigationContainer>
-    <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <LineProvider value ={{state, dispatch}}>
           <Combined/>
         </LineProvider>
-    </SafeAreaView>
-      </NavigationContainer>
+      </SafeAreaView>
+    </NavigationContainer>
     
   );
 }
@@ -110,7 +110,5 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: StatusBar.currentHeight,
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
   },
 });

@@ -16,7 +16,19 @@ POST https://boards-server.herokuapp.com/users/register
 Content-Type: application/json
 
 {
-    "email": "njuguna@mail.com",
+    "email": "kelvin@mail.com",
+    "fname": "Kelvin",
+    "lname": "Njuguna",
+    "ts": "2020-05-19 11:25:25",
+    "pwd": "Njuguna"
+}
+
+###
+POST https://boards-server.herokuapp.com/users/register
+Content-Type: application/json
+
+{
+    "email": "brian@mail.com",
     "fname": "Brian",
     "lname": "Munyu",
     "ts": "2020-05-19 11:25:25",
@@ -25,6 +37,13 @@ Content-Type: application/json
 
 ###
 
+POST https://boards-server.herokuapp.com/users/searchUser
+Content-Type: application/json
+
+{
+    "name": "brian"
+}
+###
 GET https://boards-server.herokuapp.com/posts
 #####
 

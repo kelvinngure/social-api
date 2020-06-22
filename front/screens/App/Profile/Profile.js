@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import ProfileHead from "./ProfileHead"
 import ProfileTab from "./ProfileTab"
 
-export default function Profile() {
+export default function Profile(props) {
   return (
     <View style = {styles.container}>
       <View style = {styles.head}><ProfileHead/></View>
